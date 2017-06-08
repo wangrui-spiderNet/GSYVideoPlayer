@@ -2,18 +2,9 @@ package com.example.gsyvideoplayer.video;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.gsyvideoplayer.R;
@@ -25,11 +16,7 @@ import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.video.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 
 import master.flame.danmaku.controller.IDanmakuView;
@@ -38,15 +25,12 @@ import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
-import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
-import master.flame.danmaku.danmaku.util.IOUtils;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
 /**
@@ -60,7 +44,7 @@ import master.flame.danmaku.ui.widget.DanmakuView;
  * 注意：b站的弹幕so只有v5 v7 x86、没有64，所以记得配置上ndk过滤。
  */
 
-public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
+public class DanmuVideoPlayer extends StandardGSYVideoPlayer {
 
     private BaseDanmakuParser mParser;//解析器对象
     private IDanmakuView mDanmakuView;//弹幕view
@@ -72,15 +56,15 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
 
     private boolean mDanmaKuShow = true;
 
-    public DanmakuVideoPlayer(Context context, Boolean fullFlag) {
+    public DanmuVideoPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
     }
 
-    public DanmakuVideoPlayer(Context context) {
+    public DanmuVideoPlayer(Context context) {
         super(context);
     }
 
-    public DanmakuVideoPlayer(Context context, AttributeSet attrs) {
+    public DanmuVideoPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -170,7 +154,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
     public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar) {
         GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar);
         if (gsyBaseVideoPlayer != null) {
-            DanmakuVideoPlayer gsyVideoPlayer = (DanmakuVideoPlayer) gsyBaseVideoPlayer;
+            DanmuVideoPlayer gsyVideoPlayer = (DanmuVideoPlayer) gsyBaseVideoPlayer;
             //对弹幕设置偏移记录
             gsyVideoPlayer.setDanmakuStartSeekPosition(getCurrentPositionWhenPlaying());
             gsyVideoPlayer.setDanmaKuShow(getDanmaKuShow());
@@ -187,7 +171,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
     protected void resolveNormalVideoShow(View oldF, ViewGroup vp, GSYVideoPlayer gsyVideoPlayer) {
         super.resolveNormalVideoShow(oldF, vp, gsyVideoPlayer);
         if (gsyVideoPlayer != null) {
-            DanmakuVideoPlayer gsyDanmaVideoPlayer = (DanmakuVideoPlayer) gsyVideoPlayer;
+            DanmuVideoPlayer gsyDanmaVideoPlayer = (DanmuVideoPlayer) gsyVideoPlayer;
             setDanmaKuShow(gsyDanmaVideoPlayer.getDanmaKuShow());
             if (gsyDanmaVideoPlayer.getDanmakuView() != null &&
                     gsyDanmaVideoPlayer.getDanmakuView().isPrepared()) {
@@ -236,7 +220,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
                     if (getDanmakuView() != null) {
                         getDanmakuView().start();
                         if (getDanmakuStartSeekPosition() != -1) {
-                            resolveDanmakuSeek(DanmakuVideoPlayer.this, getDanmakuStartSeekPosition());
+                            resolveDanmakuSeek(DanmuVideoPlayer.this, getDanmakuStartSeekPosition());
                             setDanmakuStartSeekPosition(-1);
                         }
                         resolveDanmakuShow();
@@ -271,7 +255,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
     /**
      * 开始播放弹幕
      */
-    private void onPrepareDanmaku(DanmakuVideoPlayer gsyVideoPlayer) {
+    private void onPrepareDanmaku(DanmuVideoPlayer gsyVideoPlayer) {
         if (gsyVideoPlayer.getDanmakuView() != null && !gsyVideoPlayer.getDanmakuView().isPrepared()) {
             gsyVideoPlayer.getDanmakuView().prepare(gsyVideoPlayer.getParser(),
                     gsyVideoPlayer.getDanmakuContext());
@@ -281,7 +265,7 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
     /**
      * 弹幕偏移
      */
-    private void resolveDanmakuSeek(DanmakuVideoPlayer gsyVideoPlayer, long time) {
+    private void resolveDanmakuSeek(DanmuVideoPlayer gsyVideoPlayer, long time) {
         if (GSYVideoManager.instance().getMediaPlayer() != null && mHadPlay
                 && gsyVideoPlayer.getDanmakuView() != null && gsyVideoPlayer.getDanmakuView().isPrepared()) {
             gsyVideoPlayer.getDanmakuView().seekTo(time);
@@ -323,10 +307,10 @@ public class DanmakuVideoPlayer extends StandardGSYVideoPlayer {
     /**
      * 释放弹幕控件
      */
-    private void releaseDanmaku(DanmakuVideoPlayer danmakuVideoPlayer) {
-        if (danmakuVideoPlayer != null && danmakuVideoPlayer.getDanmakuView() != null) {
+    private void releaseDanmaku(DanmuVideoPlayer danmuVideoPlayer) {
+        if (danmuVideoPlayer != null && danmuVideoPlayer.getDanmakuView() != null) {
             Debuger.printfError("release Danmaku!");
-            danmakuVideoPlayer.getDanmakuView().release();
+            danmuVideoPlayer.getDanmakuView().release();
         }
     }
 

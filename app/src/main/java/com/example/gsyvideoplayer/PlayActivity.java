@@ -14,13 +14,10 @@ import android.widget.ImageView;
 
 import com.example.gsyvideoplayer.listener.OnTransitionListener;
 import com.example.gsyvideoplayer.model.SwitchVideoModel;
-import com.example.gsyvideoplayer.video.SampleVideo;
+import com.example.gsyvideoplayer.video.SampleVideoPlayer;
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer;
-import com.shuyu.gsyvideoplayer.utils.FileUtils;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +34,7 @@ public class PlayActivity extends AppCompatActivity {
     public final static String TRANSITION = "TRANSITION";
 
     @BindView(R.id.video_player)
-    SampleVideo videoPlayer;
+    SampleVideoPlayer videoPlayer;
 
     OrientationUtils orientationUtils;
 

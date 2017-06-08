@@ -1,18 +1,12 @@
 package com.example.gsyvideoplayer.video;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
-import android.media.MediaMetadataRetriever;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +22,6 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by shuyu on 2016/12/7.
@@ -38,7 +30,7 @@ import java.util.TimerTask;
  * 这只是单纯的作为全屏播放显示，如果需要做大小屏幕切换，请记得在这里耶设置上视频全屏的需要的自定义配置
  */
 
-public class SampleVideo extends StandardGSYVideoPlayer {
+public class SampleVideoPlayer extends StandardGSYVideoPlayer {
 
     private TextView mMoreScale;
 
@@ -61,15 +53,15 @@ public class SampleVideo extends StandardGSYVideoPlayer {
     /**
      * 1.5.0开始加入，如果需要不同布局区分功能，需要重载
      */
-    public SampleVideo(Context context, Boolean fullFlag) {
+    public SampleVideoPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
     }
 
-    public SampleVideo(Context context) {
+    public SampleVideoPlayer(Context context) {
         super(context);
     }
 
-    public SampleVideo(Context context, AttributeSet attrs) {
+    public SampleVideoPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -244,12 +236,12 @@ public class SampleVideo extends StandardGSYVideoPlayer {
 
     @Override
     public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar) {
-        SampleVideo sampleVideo = (SampleVideo) super.startWindowFullscreen(context, actionBar, statusBar);
+        SampleVideoPlayer sampleVideoPlayer = (SampleVideoPlayer) super.startWindowFullscreen(context, actionBar, statusBar);
         //这个播放器的demo配置切换到全屏播放器
         //这只是单纯的作为全屏播放显示，如果需要做大小屏幕切换，请记得在这里耶设置上视频全屏的需要的自定义配置
         //比如已旋转角度之类的等等
         //可参考super中的实现
-        return sampleVideo;
+        return sampleVideoPlayer;
     }
 
     /**

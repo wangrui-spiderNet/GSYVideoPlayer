@@ -11,20 +11,20 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
  * Created by shuyu on 2016/12/23.
  * CustomGSYVideoPlayer是试验中，建议使用的时候使用StandardGSYVideoPlayer
  */
-public class LandLayoutVideo extends StandardGSYVideoPlayer {
+public class LandLayoutVideoPlayer extends StandardGSYVideoPlayer {
 
     /**
      * 1.5.0开始加入，如果需要不同布局区分功能，需要重载
      */
-    public LandLayoutVideo(Context context, Boolean fullFlag) {
+    public LandLayoutVideoPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
     }
 
-    public LandLayoutVideo(Context context) {
+    public LandLayoutVideoPlayer(Context context) {
         super(context);
     }
 
-    public LandLayoutVideo(Context context, AttributeSet attrs) {
+    public LandLayoutVideoPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

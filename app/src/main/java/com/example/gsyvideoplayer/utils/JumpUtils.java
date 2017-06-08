@@ -7,9 +7,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 
-import com.example.gsyvideoplayer.DanmkuVideoActivity;
+import com.example.gsyvideoplayer.DanmuVideoActivity;
 import com.example.gsyvideoplayer.DetailListPlayer;
-import com.example.gsyvideoplayer.DetailPlayer;
+import com.example.gsyvideoplayer.DetailPlayerActivity;
 import com.example.gsyvideoplayer.FragmentVideoActivity;
 import com.example.gsyvideoplayer.ListVideo2Activity;
 import com.example.gsyvideoplayer.ListVideoActivity;
@@ -95,7 +95,7 @@ public class JumpUtils {
      * @param activity
      */
     public static void goToDetailPlayer(Activity activity) {
-        Intent intent = new Intent(activity, DetailPlayer.class);
+        Intent intent = new Intent(activity, DetailPlayerActivity.class);
         activity.startActivity(intent);
     }
 
@@ -126,7 +126,7 @@ public class JumpUtils {
      * @param activity
      */
     public static void gotoDanmaku(Activity activity) {
-        Intent intent = new Intent(activity, DanmkuVideoActivity.class);
+        Intent intent = new Intent(activity, DanmuVideoActivity.class);
         activity.startActivity(intent);
     }
 
