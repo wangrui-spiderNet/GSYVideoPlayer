@@ -3,7 +3,6 @@ package com.example.gsyvideoplayer;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.gsyvideoplayer.listener.SampleListener;
-import com.shuyu.gsyvideoplayer.GSYPreViewManager;
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.model.GSYVideoModel;
@@ -29,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by shuyu on 2016/12/20.
  */
 
-public class DetailListPlayer extends AppCompatActivity {
+public class DetailListPlayerActivity extends AppCompatActivity {
 
 
     @BindView(R.id.post_detail_nested_scroll)
@@ -85,7 +83,7 @@ public class DetailListPlayer extends AppCompatActivity {
                 orientationUtils.resolveByClick();
 
                 //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-                detailPlayer.startWindowFullscreen(DetailListPlayer.this, true, true);
+                detailPlayer.startWindowFullscreen(DetailListPlayerActivity.this, true, true);
             }
         });
 
@@ -170,7 +168,7 @@ public class DetailListPlayer extends AppCompatActivity {
         if (isPlay && !isPause) {
             if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
                 if (!detailPlayer.isIfCurrentIsFullscreen()) {
-                    detailPlayer.startWindowFullscreen(DetailListPlayer.this, true, true);
+                    detailPlayer.startWindowFullscreen(DetailListPlayerActivity.this, true, true);
                 }
             } else {
                 //新版本isIfCurrentIsFullscreen的标志位内部提前设置了，所以不会和手动点击冲突

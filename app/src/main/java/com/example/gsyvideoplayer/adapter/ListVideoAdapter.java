@@ -1,19 +1,24 @@
 package com.example.gsyvideoplayer.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.gsyvideoplayer.R;
+import com.example.gsyvideoplayer.model.LessonModel;
+import com.example.gsyvideoplayer.model.RowsBean;
 import com.example.gsyvideoplayer.model.VideoModel;
 import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.FileUtils;
 import com.shuyu.gsyvideoplayer.utils.ListVideoUtil;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +32,6 @@ public class ListVideoAdapter extends BaseAdapter {
 
     public final static String TAG = "TT2";
 
-    private List<VideoModel> list = new ArrayList<>();
     private LayoutInflater inflater = null;
     private Context context;
 
@@ -37,22 +41,22 @@ public class ListVideoAdapter extends BaseAdapter {
     private boolean isFullVideo;
 
     private ListVideoUtil listVideoUtil;
+    private List<RowsBean> lessonModels;
 
-    public ListVideoAdapter(Context context, ListVideoUtil listVideoUtil) {
+    public ListVideoAdapter(Context context, ListVideoUtil listVideoUtil,List<RowsBean> lessonModels) {
         super();
         this.context = context;
         this.listVideoUtil = listVideoUtil;
+        this.lessonModels = lessonModels;
 
         inflater = LayoutInflater.from(context);
-        for (int i = 0; i < 40; i++) {
-            list.add(new VideoModel());
-        }
+
 
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return lessonModels.size();
     }
 
     @Override
@@ -73,6 +77,7 @@ public class ListVideoAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_video_item, null);
             holder.videoContainer = (FrameLayout) convertView.findViewById(R.id.list_item_container);
             holder.playerBtn = (ImageView) convertView.findViewById(R.id.list_item_btn);
+            holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
             holder.imageView = new ImageView(context);
             convertView.setTag(holder);
         } else {
@@ -81,7 +86,12 @@ public class ListVideoAdapter extends BaseAdapter {
 
         //增加封面
         holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        holder.imageView.setImageResource(R.mipmap.xxx1);
+
+        if(!TextUtils.isEmpty(lessonModels.get(position).getCover())){
+            Picasso.with(context).load(lessonModels.get(position).getCover()).into(holder.imageView);
+        }else{
+            holder.imageView.setImageResource(R.mipmap.xxx1);
+        }
 
         listVideoUtil.addVideoPlayer(position, holder.imageView, TAG, holder.videoContainer, holder.playerBtn);
 
@@ -91,11 +101,13 @@ public class ListVideoAdapter extends BaseAdapter {
                 notifyDataSetChanged();
                 //listVideoUtil.setLoop(true);
                 listVideoUtil.setPlayPositionAndTag(position, TAG);
-                final String url = "http://baobab.wdjcdn.com/14564977406580.mp4";
+                final String url = lessonModels.get(position).getSourceSd();
                 //listVideoUtil.setCachePath(new File(FileUtils.getPath()));
                 listVideoUtil.startPlay(url);
             }
         });
+
+        holder.tvName.setText(lessonModels.get(position).getCourseName());
         return convertView;
     }
 
@@ -104,6 +116,7 @@ public class ListVideoAdapter extends BaseAdapter {
         FrameLayout videoContainer;
         ImageView playerBtn;
         ImageView imageView;
+        TextView tvName;
     }
 
     public void setRootView(ViewGroup rootView) {

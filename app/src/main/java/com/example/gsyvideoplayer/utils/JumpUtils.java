@@ -8,7 +8,7 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.example.gsyvideoplayer.DanmuVideoActivity;
-import com.example.gsyvideoplayer.DetailListPlayer;
+import com.example.gsyvideoplayer.DetailListPlayerActivity;
 import com.example.gsyvideoplayer.DetailPlayerActivity;
 import com.example.gsyvideoplayer.FragmentVideoActivity;
 import com.example.gsyvideoplayer.ListVideo2Activity;
@@ -105,7 +105,7 @@ public class JumpUtils {
      * @param activity
      */
     public static void goToDetailListPlayer(Activity activity) {
-        Intent intent = new Intent(activity, DetailListPlayer.class);
+        Intent intent = new Intent(activity, DetailListPlayerActivity.class);
         activity.startActivity(intent);
     }
 

@@ -1,8 +1,10 @@
 package com.example.gsyvideoplayer;
 
+import android.content.res.AssetManager;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.view.Window;
@@ -13,10 +15,18 @@ import android.widget.RelativeLayout;
 
 import com.example.gsyvideoplayer.adapter.ListVideoAdapter;
 import com.example.gsyvideoplayer.listener.SampleListener;
+import com.example.gsyvideoplayer.model.LessonModel;
+import com.example.gsyvideoplayer.model.RowsBean;
+import com.example.gsyvideoplayer.utils.StringUtil;
+import com.google.gson.Gson;
 import com.shuyu.gsyvideoplayer.GSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.ListVideoUtil;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +44,9 @@ public class ListVideo2Activity extends AppCompatActivity {
     ListVideoAdapter listVideoAdapter;
     int lastVisibleItem;
     int firstVisibleItem;
+
+    private LessonModel lessonModel;
+    private List<RowsBean> rowsBeanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +66,28 @@ public class ListVideo2Activity extends AppCompatActivity {
         //listVideoUtil.setHideActionBar(true);
         listVideoUtil.setNeedLockFull(true);
 
-        listVideoAdapter = new ListVideoAdapter(this, listVideoUtil);
-        listVideoAdapter.setRootView(activityListVideo);
-        videoList.setAdapter(listVideoAdapter);
+
+
+//        new Handler().post(new Runnable() {
+//            @Override
+//            public void run() {
+
+                String str= StringUtil.getFromAssets(ListVideo2Activity.this,"lesson.json");
+                lessonModel=new Gson().fromJson(str, LessonModel.class);
+
+                if(null!=lessonModel){
+                    listVideoAdapter = new ListVideoAdapter(ListVideo2Activity.this, listVideoUtil,lessonModel.getBizData().getRows());
+                    listVideoAdapter.setRootView(activityListVideo);
+                    videoList.setAdapter(listVideoAdapter);
+                }else {
+                    lessonModel=new LessonModel();
+                    listVideoAdapter = new ListVideoAdapter(ListVideo2Activity.this, listVideoUtil,lessonModel.getBizData().getRows());
+                    listVideoAdapter.setRootView(activityListVideo);
+                    videoList.setAdapter(listVideoAdapter);
+                }
+//            }
+//        });
+
 
         //listVideoUtil.setShowFullAnimation(true);
         //listVideoUtil.setAutoRotation(true);
